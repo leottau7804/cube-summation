@@ -1,5 +1,9 @@
 package cube.summation.model;
 
+import cube.summation.exception.CubeSummationException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Query operation
  *
@@ -16,15 +20,22 @@ public class QueryOperation implements Operation {
      */
     private Coordinate finalCoordinate;
 
-    /**
-     * Full constructor
-     *
-     * @param initialCoordinate
-     * @param finalCoordinate
-     */
-    public QueryOperation(Coordinate initialCoordinate, Coordinate finalCoordinate) {
-        this.initialCoordinate = initialCoordinate;
-        this.finalCoordinate = finalCoordinate;
+    public QueryOperation(String operationText) throws CubeSummationException {
+
+        Pattern pattern = Pattern.compile(OperationType.QUERY.getPattern());
+        Matcher matcher = pattern.matcher(operationText);
+
+        if (matcher.matches()) {
+            initialCoordinate = new Coordinate(Integer.parseInt(matcher.group(2)),
+                    Integer.parseInt(matcher.group(3)), Integer.parseInt(matcher.group(4)));
+
+            finalCoordinate = new Coordinate(Integer.parseInt(matcher.group(5)),
+                    Integer.parseInt(matcher.group(6)), Integer.parseInt(matcher.group(7)));
+        } else {
+            throw new CubeSummationException("La siguiente operacion no es valida: "
+                    + operationText);
+        }
+
     }
 
     /**
@@ -47,6 +58,15 @@ public class QueryOperation implements Operation {
 
     public void setFinalCoordinate(Coordinate finalCoordinate) {
         this.finalCoordinate = finalCoordinate;
+    }
+
+    public boolean isInside(Coordinate coordinate) {
+
+        boolean x = coordinate.getX() >= initialCoordinate.getX() && coordinate.getX() <= finalCoordinate.getX();
+        boolean y = coordinate.getY() >= initialCoordinate.getY() && coordinate.getY() <= finalCoordinate.getY();
+        boolean z = coordinate.getZ() >= initialCoordinate.getZ() && coordinate.getZ() <= finalCoordinate.getZ();
+
+        return x && y && z;
     }
 
     @Override

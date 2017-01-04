@@ -20,10 +20,23 @@ public class TestCase {
      */
     private int operationAmount;
 
+    /**
+     * Constructor with all attributes
+     *
+     * @param operations
+     * @param cubeDimension
+     * @param operationAmount
+     */
     public TestCase(Operation[] operations, int cubeDimension, int operationAmount) {
         this.operations = operations;
         this.cubeDimension = cubeDimension;
         this.operationAmount = operationAmount;
+    }
+
+    /**
+     * Default constructor
+     */
+    public TestCase() {
     }
 
     public Operation[] getOperations() {

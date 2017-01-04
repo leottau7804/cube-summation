@@ -6,7 +6,7 @@ import cube.summation.model.TestCase;
  * Test case processor
  * @author sergioleottau
  */
-public interface TestCaseProcessor {
+public interface ITestCaseProcessor {
 
     /**
      * Process a test case and return query operations results

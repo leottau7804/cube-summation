@@ -8,6 +8,10 @@ package cube.summation.model;
 public class Coordinate {
 
     /**
+     * Key separator
+     */
+    private static final String SEPARATOR = "-";
+    /**
      * X axis
      */
     private int x;
@@ -48,6 +52,17 @@ public class Coordinate {
 
     public void setZ(int z) {
         this.z = z;
+    }
+
+    public String generateKey() {
+        StringBuilder key = new StringBuilder();
+        key.append(x);
+        key.append(SEPARATOR);
+        key.append(y);
+        key.append(SEPARATOR);
+        key.append(z);
+
+        return key.toString();
     }
 
     @Override

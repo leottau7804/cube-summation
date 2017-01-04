@@ -1,5 +1,9 @@
 package cube.summation.model;
 
+import cube.summation.exception.CubeSummationException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Update operation
  *
@@ -16,9 +20,21 @@ public class UpdateOperation implements Operation {
      */
     private int value;
 
-    public UpdateOperation(Coordinate coordinate, int value) {
-        this.coordinate = coordinate;
-        this.value = value;
+    public UpdateOperation(String operationText) throws CubeSummationException {
+
+        Pattern pattern = Pattern.compile(OperationType.UPDATE.getPattern());
+        Matcher matcher = pattern.matcher(operationText);
+        
+        if (matcher.matches()) {
+            coordinate = new Coordinate(Integer.parseInt(matcher.group(2)),
+                    Integer.parseInt(matcher.group(3)), Integer.parseInt(matcher.group(4)));
+
+            value = Integer.parseInt(matcher.group(5));
+        } else {
+            throw new CubeSummationException("La siguiente operacion no es valida: "
+                    + operationText);
+        }
+
     }
 
     public UpdateOperation() {
